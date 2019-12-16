@@ -1,19 +1,12 @@
-led_num = 8
+dt = require("digit")
+dt.init()
+dt.set(2019)
 
-gpio.mode(1, gpio.OUTPUT)
-gpio.write(1, gpio.HIGH)
+led = require("color")
+led.init(30)
 
-ws2812.init()
-buffer = ws2812.newBuffer(led_num, 3)
-bl = 0
-pos = 1
-tmr.create():alarm(50, 1, function()
-        bl = (bl + 2)%200
-        if bl==0 then
-            if pos<led_num then
-                pos = pos + 1
-            end
-        end
-        buffer:set(pos, bl, bl, bl)
-        ws2812.write(buffer)
-    end)
+key = 2
+gpio.mode(key, gpio.INT)
+gpio.trig(key, "both", key_event)
+
+function key_event()
