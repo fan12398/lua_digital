@@ -30,6 +30,13 @@ function M.set(num)
     num_d[1] = num%10
 end
 
+function M.set_blank()
+    num_d[4] = 10
+    num_d[3] = 10
+    num_d[2] = 10
+    num_d[1] = 10
+end
+
 local function display()
     tosend = bit.bor(bit.lshift(table[num_d[disp+1]+1], 8), bit.lshift(1, disp))
     spi.send(1, tosend)
@@ -39,7 +46,7 @@ end
 function M.init()
     spi.setup(1, spi.MASTER, spi.CPOL_LOW, spi.CPHA_LOW, 16, 4)
     timer = tmr.create()
-    timer:register(4, tmr.ALARM_AUTO, display)
+    timer:register(3, tmr.ALARM_AUTO, display)
     timer:start()
 end
 
